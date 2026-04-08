@@ -95,13 +95,13 @@ internal static class Program {
             nint hwnd = CopyData.FindWindow(null, ProgramGUID);
 
             if (hwnd != 0) {
-                List<(ArgumentType Type, string Data)> Arguments;
+                List<(ArgumentType Type, string? Data)> Arguments;
                 if (args.Length > 0 && (Arguments = youtube_dl_gui.Arguments.RetrieveArguments(args)).Count > 0) {
                     for (int i = 0; i < Arguments.Count; i++) {
                         nint valPointer = 0;
                         nint cdsPointer = 0;
                         try {
-                            byte[] bytes = Encoding.Unicode.GetBytes(Arguments[i].Data);
+                            byte[] bytes = Encoding.Unicode.GetBytes(Arguments[i].Data ?? "");
                             valPointer = Marshal.AllocHGlobal(bytes.Length);
                             Marshal.Copy(bytes, 0, valPointer, bytes.Length);
 

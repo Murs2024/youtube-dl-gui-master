@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 namespace youtube_dl_gui_shared;
 
 using System.Runtime.InteropServices;
@@ -187,7 +187,7 @@ internal static class CopyData {
     /// <returns>The HANDLE of the found window if one was found; otherwise, 0.</returns>
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
     public static extern nint FindWindow(
-        string strClassName,
+        string? strClassName,
         string strWindowName);
 
     /// <summary>

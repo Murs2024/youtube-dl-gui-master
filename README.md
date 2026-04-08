@@ -512,17 +512,40 @@ powershell -ExecutionPolicy Bypass -File .\create-desktop-shortcut.ps1
 
 ## Сборка
 
-Проект собирается компилятором с поддержкой C# 11 (Preview), .NET Framework 4.7.2 и WinForms.
+Проект: C# / .NET Framework 4.7.2 / WinForms. Без окна Visual Studio: [Build Tools 2022](https://visualstudio.microsoft.com/downloads/) + **.NET desktop build tools** + **.NET Framework 4.7.2**.
 
-В конфигурации **Debug** часть действий может быть отключена — это отладочная сборка.
+**Слова не путать:**
 
-**Сборка из командной строки (без окна Visual Studio):** установите [Build Tools for Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) с рабочей нагрузкой **.NET desktop build tools** и компонентом **.NET Framework 4.7.2**, затем из корня репозитория:
+- **Пересборка** — это не «режим». Это просто «я изменил код и хочу снова получить exe»: вы **ещё раз** запускаете ту же команду сборки, что и в прошлый раз.
+- **Release** (по умолчанию) — обычная сборка для **пользования**; exe: `youtube-dl-gui\bin\Release\youtube-dl-gui.exe`.
+- **Debug** — **отладочная** сборка (другая папка `bin\Debug\`, удобнее для отладки в Visual Studio). Нужна **только** если вы сами хотите именно отладочный вариант.
 
-```text
+**Что вводить почти всегда:** в PowerShell, из папки где лежит `build.ps1`:
+
+```powershell
+.\build.ps1
+```
+
+Перед этим закройте запущенную программу (иначе файл exe может быть занят). Если PowerShell ругается на политику:
+
+```powershell
 powershell -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
-Отладочная сборка: `.\build.ps1 -Configuration Debug`. Скрипт ищет `MSBuild.exe` через `vswhere` или типичные пути установки. После успешной сборки при необходимости запустите `.\create-desktop-shortcut.ps1` (ярлык и копирование `Languages` в `lang`).
+Только для отладочного exe: `.\build.ps1 -Configuration Debug`.
+
+**`create-desktop-shortcut.ps1` — это не сборка.** Запускайте **после** того, как `.\build.ps1` уже собрал exe.
+
+Что делает скрипт:
+
+1. Создаёт **ярлык на рабочем столе** на `youtube-dl-gui.exe`. Скрипт **сначала** ищет **Release** (`bin\Release\`), если нет — берёт **Debug**; для явного выбора Debug есть параметр `-PreferDebug` (см. комментарии в начале `create-desktop-shortcut.ps1`).
+2. **Копирует** переводы из папки **`Languages`** в проекте в папку **`lang`** рядом с этим exe, чтобы программа брала языки из своего каталога.
+
+**Не обязательно** запускать, если вы и так открываете exe из проводника и языки вас устраивают. **Имеет смысл**, если нужен ярлык на столе и/или вы правили файлы в `Languages` и хотите снова положить их рядом с exe.
+
+```powershell
+.\create-desktop-shortcut.ps1
+```
 
 
 ## Зависимости

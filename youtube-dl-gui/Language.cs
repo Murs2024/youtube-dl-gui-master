@@ -252,6 +252,7 @@ public static class Language {
     #endregion
 
     #region frmMain
+    public static string frmMain { get; private set; }
     public static string mSettings { get; private set; }
     public static string mTools { get; private set; }
     public static string mBatch { get; private set; }
@@ -1453,6 +1454,7 @@ public static class Language {
         #endregion
 
         #region frmMain
+        frmMain = InternalEnglish.frmMain;
         mSettings = InternalEnglish.mSettings;
         mTools = InternalEnglish.mTools;
         mBatch = InternalEnglish.mBatch;
@@ -2052,6 +2054,7 @@ public static class Language {
         #endregion
 
         #region frmMain
+        frmMain = nameof(frmMain);
         mSettings = nameof(mSettings);
         mTools = nameof(mTools);
         mBatch = nameof(mBatch);
@@ -3046,6 +3049,9 @@ public static class Language {
                             #endregion
 
                             #region frmMain
+                            case nameof(frmMain):
+                                frmMain = ReadValue;
+                                continue;
                             // frmMain / menu
                             case nameof(mSettings):
                                 mSettings = ReadValue;
