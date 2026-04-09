@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 namespace youtube_dl_gui;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -54,7 +54,7 @@ internal static class Updater {
     public static async Task<bool?> CheckForUpdate(bool ForceCheck) {
         if (!Program.UpdaterEnabled) {
             Log.Write("Cannot check for updates: TLS 1.2+ is not in use.");
-            Process.Start("https://github.com/murrty/youtube-dl-gui/releases");
+            Process.Start($"{GithubLinks.GithubRepoUrl.Format(Language.ApplicationGithubOwner, Language.ApplicationGithubRepo)}/releases");
             return null;
         }
 
@@ -336,7 +336,7 @@ internal static class Updater {
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static GithubRepoContent[] GetAvailableLanguages() {
         Log.Write("Enumerating languages available.");
-        const string Url = "https://api.github.com/repos/murrty/youtube-dl-gui/contents/Languages";
+        string Url = $"https://api.github.com/repos/{Language.ApplicationGithubOwner}/{Language.ApplicationGithubRepo}/contents/Languages";
 
         Task<string?> JsonTask = GetJSON(Url);
         JsonTask.Wait();
@@ -404,7 +404,7 @@ internal static class Updater {
     /// </summary>
     private static async Task RefreshRelease() {
         string? Json = await GetJSON((General.DownloadBetaVersions ? GithubLinks.GithubAllReleasesJson : GithubLinks.GithubLatestJson)
-            .Format("murrty", Language.ApplicationName));
+            .Format(Language.ApplicationGithubOwner, Language.ApplicationGithubRepo));
 
         if (Json.IsNullEmptyWhitespace()) {
             throw new InvalidOperationException("JSON downloaded was empty");

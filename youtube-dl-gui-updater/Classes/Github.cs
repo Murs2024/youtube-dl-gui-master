@@ -1,4 +1,4 @@
-﻿namespace youtube_dl_gui_updater;
+namespace youtube_dl_gui_updater;
 
 using System.IO;
 using System.Threading.Tasks;
@@ -10,15 +10,14 @@ using murrty.updater;
 internal static class Github {
     private const int MaxRetries = 5;
     private const int RetryDelay = 1_000;
-    private const string LatestRepo = "https://api.github.com/repos/murrty/youtube-dl-gui/releases/latest";
-    private const string AllReleaseRepo = "https://api.github.com/repos/murrty/youtube-dl-gui/releases";
-
     public static async Task<UpdateData> GetUpdateData() {
         bool CanRetry;
         int Retries = 0;
         string Data = null;
         bool CheckForBetaUpdates = Program.Type == DownloadType.PreRelease;
-        string URL = CheckForBetaUpdates ? AllReleaseRepo : LatestRepo;
+        string URL = CheckForBetaUpdates
+            ? $"https://api.github.com/repos/{Language.ApplicationGithubOwner}/{Language.ApplicationGithubRepo}/releases"
+            : $"https://api.github.com/repos/{Language.ApplicationGithubOwner}/{Language.ApplicationGithubRepo}/releases/latest";
 
         do {
             try {

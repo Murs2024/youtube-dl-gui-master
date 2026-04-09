@@ -12,6 +12,9 @@
 Дополнительно для C# / Visual Studio: исключаются bin/, obj/, .vs и др.
 Папка YouTubeDownloads (скачанные видео) в архив не включается;
 внутри неё отдельно исключается YouTubeDownloads/youtube.com (кэш/данные по домену).
+
+Дистрибутив для Telegram/GitHub: папка release-staging и любые *.zip в проекте
+в бекап не попадают (не дублировать тяжёлые архивы в backups/).
 """
 
 from __future__ import annotations
@@ -43,6 +46,8 @@ EXCLUDE_DIRS = {
     ".pytest_cache",
     "node_modules",
     "YouTubeDownloads",
+    # Подготовка релиза (exe + zip локально; в Git уже в .gitignore)
+    "release-staging",
     # .NET / MSBuild
     "bin",
     "obj",
@@ -56,6 +61,9 @@ EXCLUDE_RELATIVE_PREFIXES: tuple[tuple[str, ...], ...] = (
 )
 
 EXCLUDE_FILES_EXACT = {
+    # Собранное приложение в корне репо (если положили для отправки в Telegram)
+    "youtube-dl-gui.exe",
+    "youtube-dl-gui-updater.exe",
     ".env",
     ".env.local",
     ".env.development",

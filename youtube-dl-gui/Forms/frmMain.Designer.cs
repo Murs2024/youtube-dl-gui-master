@@ -1208,6 +1208,7 @@ namespace youtube_dl_gui {
             this.trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.trayIcon.BalloonTipText = "You click this thing, and BADA-BOOM, you\'re back in it again";
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
+            this.trayIcon.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.trayIcon.Text = "Murs Media";
             // 
             // frmMain

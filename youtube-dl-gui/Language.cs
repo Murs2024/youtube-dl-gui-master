@@ -11,6 +11,10 @@ public static class Language {
     public const string ApplicationName = "youtube-dl-gui";
     /// <summary>Shown in window titles, About, tray tooltip.</summary>
     public const string ApplicationDisplayName = "Murs Media";
+    /// <summary>GitHub owner for in-app update checks and language list API.</summary>
+    public const string ApplicationGithubOwner = "Murs2024";
+    /// <summary>GitHub repository name (releases + Languages folder).</summary>
+    public const string ApplicationGithubRepo = "youtube-dl-gui-master";
     internal static List<ILocalizedForm> OpenedForms = [];
     #endregion
 

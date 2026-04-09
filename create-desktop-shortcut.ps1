@@ -58,13 +58,15 @@ else {
 }
 
 $desktop = [Environment]::GetFolderPath('Desktop')
-$lnkPath = Join-Path $desktop 'youtube-dl-gui.lnk'
+$lnkPath = Join-Path $desktop 'Murs Media.lnk'
 
 $shell = New-Object -ComObject WScript.Shell
 $shortcut = $shell.CreateShortcut($lnkPath)
 $shortcut.TargetPath = $target
 $shortcut.WorkingDirectory = $workDir
-$shortcut.Description = 'youtube-dl-gui'
+$shortcut.Description = 'Murs Media (youtube-dl-gui)'
+# Icon from the exe itself (index 0) so the desktop shows the current embedded icon, not a cached image.
+$shortcut.IconLocation = "$target,0"
 $shortcut.Save()
 
 [System.Runtime.InteropServices.Marshal]::ReleaseComObject($shortcut) | Out-Null

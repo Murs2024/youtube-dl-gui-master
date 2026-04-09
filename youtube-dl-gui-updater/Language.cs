@@ -1,4 +1,4 @@
-﻿namespace youtube_dl_gui_updater;
+namespace youtube_dl_gui_updater;
 
 using System;
 using System.IO;
@@ -6,6 +6,8 @@ using System.IO;
 public static class Language {
 
     public const string ApplicationName = "youtube-dl-gui";
+    public const string ApplicationGithubOwner = "Murs2024";
+    public const string ApplicationGithubRepo = "youtube-dl-gui-master";
 
     #region Get Set Radio
     public static string GenericRetry { get; private set; }

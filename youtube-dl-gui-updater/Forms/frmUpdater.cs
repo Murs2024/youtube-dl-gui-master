@@ -1,4 +1,4 @@
-﻿namespace youtube_dl_gui_updater;
+namespace youtube_dl_gui_updater;
 
 using System.Diagnostics;
 using System.IO;
@@ -10,7 +10,7 @@ using murrty.controls;
 internal partial class frmUpdater : Form {
     private const int MaxRetries = 5;
     private const int RetryDelay = 1_000;
-    private const string ApplicationDownloadUrl = "https://github.com/murrty/{0}/releases/download/{1}/{0}.exe";
+    private const string ApplicationDownloadUrl = "https://github.com/{0}/{1}/releases/download/{2}/{3}.exe";
 
     private UpdateData UpdateData;
     private Process ProgramProcess;
@@ -89,7 +89,11 @@ internal partial class frmUpdater : Form {
         string UpdateDestination = $"{Environment.CurrentDirectory}\\update.part";
 
         // The URL that will be downloaded using the client
-        string FileUrl = string.Format(ApplicationDownloadUrl, Language.ApplicationName, UpdateData.NewVersion.ToString());
+        string FileUrl = string.Format(ApplicationDownloadUrl,
+            Language.ApplicationGithubOwner,
+            Language.ApplicationGithubRepo,
+            UpdateData.NewVersion.ToString(),
+            Language.ApplicationName);
 
         // Whethre the old and new version have been moved.
         bool MovedOldVersion = false, MovedNewVersion = false;

@@ -72,6 +72,18 @@ Write-Host "Solution: $sln"
 Write-Host "Configuration: $Configuration"
 Write-Host ""
 
+$exeName = 'youtube-dl-gui'
+$running = @(Get-Process -Name $exeName -ErrorAction SilentlyContinue)
+if ($running.Count -gt 0) {
+    $pids = ($running | ForEach-Object { $_.Id }) -join ', '
+    throw @"
+Сборка не может заменить ${exeName}.exe: программа уже запущена (PID: $pids).
+Закройте окно Murs Media / youtube-dl-gui и снова запустите build.ps1.
+
+(Ошибка MSBuild MSB3027 / «файл используется другим процессом» — из‑за этого.)
+"@
+}
+
 $msbuildArgs = @(
     $sln,
     "/p:Configuration=$Configuration",

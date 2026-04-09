@@ -348,3 +348,9 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Локальная папка для подготовки файлов к GitHub Release (prepare-github-release.ps1)
+release-staging/
+
+# Полная локальная шпаргалка разработчика (не пушить на GitHub; на сайте — короткий README.md)
+README.local.md
