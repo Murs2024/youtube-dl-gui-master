@@ -1,4 +1,4 @@
-<!-- Правьте этот файл в корне репозитория. Копия в release-staging создаётся скриптом prepare-github-release.ps1 (для удобства). -->
+<!-- Правьте только этот файл в корне. Скрипт prepare-github-release.ps1 подставляет {{TAG}} и {{SHA256}} в release-staging\MursMedia-<тег>-portable-GITHUB-RELEASE-BODY.md — его копируйте в описание релиза на GitHub. -->
 
 ## Murs Media
 

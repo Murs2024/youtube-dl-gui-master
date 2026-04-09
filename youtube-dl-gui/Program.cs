@@ -15,7 +15,8 @@ internal static class Program {
     /// <summary>
     /// Gets the curent version of the program.
     /// </summary>
-    public static Version CurrentVersion { get; } = new(3, 0, 0, 2);
+    /// <summary>Must stay in line with GitHub release tags (e.g. 1.0.0) for in-app updates.</summary>
+    public static Version CurrentVersion { get; } = new(1, 0, 0);
     /// <summary>
     /// Gets whether the program is running in debug mode.
     /// </summary>

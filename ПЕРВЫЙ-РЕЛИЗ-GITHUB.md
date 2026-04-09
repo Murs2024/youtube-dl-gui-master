@@ -17,7 +17,7 @@ powershell -ExecutionPolicy Bypass -File .\prepare-github-release.ps1
 По умолчанию тег папки/ZIP — **`1.0.0`**. Свой тег:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\prepare-github-release.ps1 -VersionTag 3.0.0
+powershell -ExecutionPolicy Bypass -File .\prepare-github-release.ps1 -VersionTag 1.0.1
 ```
 
 Уже собрали Release вручную:
@@ -32,7 +32,8 @@ powershell -ExecutionPolicy Bypass -File .\prepare-github-release.ps1 -SkipBuild
 2. копирует **всё** из `youtube-dl-gui\bin\Release\` в папку  
    **`release-staging\MursMedia-<тег>-portable\`** (эта папка в **`.gitignore`**, в Git не попадает);
 3. создаёт архив **`release-staging\MursMedia-<тег>-portable.zip`** — удобно выложить вторым файлом на релиз;
-4. пишет **`release-staging\MursMedia-<тег>-portable-exe-sha256.txt`** со строкой **`exe sha256: ...`** для копирования в описание релиза.
+4. пишет **`release-staging\MursMedia-<тег>-portable-exe-sha256.txt`** со строкой **`exe sha256: ...`** для копирования в описание релиза;
+5. из корневого **`github-release-body-template.md`** (плейсхолдеры `{{TAG}}`, `{{SHA256}}`) генерирует **`release-staging\MursMedia-<тег>-portable-GITHUB-RELEASE-BODY.md`** — **его целиком вставляйте** в описание релиза на GitHub (отдельная копия шаблона в `release-staging` не создаётся).
 
 Папка `release-staging` создаётся **локально** рядом с проектом; бинарники в репозиторий не коммитятся.
 
@@ -138,8 +139,8 @@ exe sha256: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
    **Примеры подходящих тегов:**
 
    - `1.0.0` — первый стабильный релиз;
-   - `3.0.0` — если хотите совпасть с текущей нумерацией сборки;
-   - `3.0.0-1` — если нужна «бета»-суффикс (через дефис).
+   - `1.0.1`, `1.1.0` — следующие релизы;
+   - `1.0.1-1` — пре-релиз / бета (суффикс через дефис; должен совпадать с логикой `Program.CurrentVersion` в коде).
 
    **Не подойдёт** для логики версий в приложении: `v1.0.0` (с буквой `v`).
 

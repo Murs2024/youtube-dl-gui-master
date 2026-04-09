@@ -354,3 +354,9 @@ release-staging/
 
 # Полная локальная шпаргалка разработчика (не пушить на GitHub; на сайте — короткий README.md)
 README.local.md
+
+# Локальная заметка про YouTube / доступ к потокам (только у себя; не в репозитории)
+docs/YouTube-zagruzka-i-dostup-RU.md
+
+# Локальные заметки / черновики в корне (не пушить)
+/новый проект youtube-dl-gui-master в раз.ini

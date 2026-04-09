@@ -6,7 +6,7 @@
   1) (по умолчанию) запускает build.ps1 → Release;
   2) копирует всё из youtube-dl-gui\bin\Release в release-staging\MursMedia-<тег>-portable\;
   3) создаёт ZIP с тем же именем;
-  4) пишет SHA-256 в *-exe-sha256.txt; копирует шаблон в release-staging\github-release-body-template.md; готовое описание в *-GITHUB-RELEASE-BODY.md.
+  4) пишет SHA-256 в *-exe-sha256.txt; из корневого github-release-body-template.md генерирует *-GITHUB-RELEASE-BODY.md (готовый текст для GitHub).
 
 Использование (из корня репозитория):
   powershell -ExecutionPolicy Bypass -File .\prepare-github-release.ps1
@@ -64,9 +64,7 @@ $utf8Bom = New-Object System.Text.UTF8Encoding $true
 
 $templatePath = Join-Path $RepoRoot 'github-release-body-template.md'
 $releaseBodyOut = Join-Path $stagingRoot "$folderName-GITHUB-RELEASE-BODY.md"
-$templateCopyInStaging = Join-Path $stagingRoot 'github-release-body-template.md'
 if (Test-Path -LiteralPath $templatePath) {
-    Copy-Item -LiteralPath $templatePath -Destination $templateCopyInStaging -Force
     $templateRaw = Get-Content -LiteralPath $templatePath -Raw -Encoding UTF8
     $releaseBody = $templateRaw.Replace('{{TAG}}', $VersionTag).Replace('{{SHA256}}', $hash)
     [System.IO.File]::WriteAllText($releaseBodyOut, $releaseBody, $utf8Bom)
@@ -86,9 +84,6 @@ Write-Host ('  Release notes line: exe sha256: ' + $hash)
 Write-Host ('  Hash saved to:   ' + $hashFile)
 if (Test-Path -LiteralPath $releaseBodyOut) {
     Write-Host ('  GitHub description (copy all): ' + $releaseBodyOut)
-}
-if (Test-Path -LiteralPath $templateCopyInStaging) {
-    Write-Host ('  Template copy in staging:      ' + $templateCopyInStaging)
 }
 Write-Host ''
 Write-Host 'Upload to GitHub Release Assets:'
