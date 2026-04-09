@@ -69,6 +69,9 @@ public partial class frmExtendedDownloader : LocalizedProcessingForm {
             lvQueuedMedia.SmallImageList = Program.BatchStatusImages;
             pnSingleDownload.Dispose();
             QueueList = [];
+            // Avoid zero-height tab area when a saved window size or DPI leaves no room between
+            // the queue panel (top) and the status bar (bottom anchored).
+            tcVideoData.MinimumSize = new Size(200, 100);
         }
         else {
             pnBatchDownload.Dispose();
@@ -295,6 +298,10 @@ public partial class frmExtendedDownloader : LocalizedProcessingForm {
 
         chkDownloaderCloseAfterDownload.Checked = Downloads.CloseExtendedDownloaderAfterFinish;
         llbLink.MaximumSize = new(this.Width - 30, llbLink.Height);
+
+        if (BatchDownload && tcVideoData.Height < 80) {
+            this.Height += 80 - tcVideoData.Height;
+        }
     }
     private void frmExtendedDownloader_Shown(object sender, EventArgs e) {
         if (!BatchDownload) {
@@ -302,6 +309,10 @@ public partial class frmExtendedDownloader : LocalizedProcessingForm {
             lbExtendedDownloaderUploader.Focus();
         }
         else {
+            if (tcVideoData.Height < 80) {
+                this.Height += 80 - tcVideoData.Height;
+            }
+            tcVideoData.BringToFront();
             txtQueueLink.Focus();
         }
     }
@@ -1014,10 +1025,26 @@ public partial class frmExtendedDownloader : LocalizedProcessingForm {
         }
         else {
             if (!MediaDetails.InfoRetrieved) {
+                lvVideoFormats.Items.Clear();
+                lvAudioFormats.Items.Clear();
+                lvUnknownFormats.Items.Clear();
+                rbVideo.Checked = rbAudio.Checked = rbUnknown.Checked = rbCustom.Checked = false;
+                rbVideo.Enabled = rbAudio.Enabled = rbUnknown.Enabled = rbCustom.Enabled = false;
+                lbExtendedDownloaderNoVideoFormatsAvailable.Visible = false;
+                lbExtendedDownloaderNoAudioFormatsAvailable.Visible = false;
+                lbExtendedDownloaderNoUnknownFormatsFound.Visible = false;
+                tcVideoData.Enabled = false;
+                if (BatchDownload) {
+                    txtExtendedDownloaderMediaTitle.Text = Language.txtExtendedDownloaderMediaTitle;
+                    txtExtendedDownloaderMediaTitle.Enabled = false;
+                }
                 return;
             }
 
             void LoadItems() {
+                lbExtendedDownloaderNoVideoFormatsAvailable.Visible = false;
+                lbExtendedDownloaderNoAudioFormatsAvailable.Visible = false;
+                lbExtendedDownloaderNoUnknownFormatsFound.Visible = false;
                 if (MediaDetails.VideoItems.Count > 0) {
                     MediaDetails.VideoItems.For((Format) => lvVideoFormats.Items.Add(Format));
                     rbVideo.Enabled = true;
@@ -1434,6 +1461,9 @@ public partial class frmExtendedDownloader : LocalizedProcessingForm {
 
         NewItem.Tag = NewMedia;
         lvQueuedMedia.Items.Add(NewItem);
+        // Select the new row so when metadata finishes, SelectedItems.Contains matches and formats load.
+        NewItem.Selected = true;
+        NewItem.Focused = true;
 
         if (CopySelectedOptions && CopyFrom is not null) {
             SaveMediaOptions();

@@ -26,9 +26,11 @@ cd youtube-dl-gui-master
 powershell -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
-Output: `youtube-dl-gui\bin\Release\youtube-dl-gui.exe`. Close a running copy of the app before rebuilding.
+Output: **`Release`** (default) → `youtube-dl-gui\bin\Release\youtube-dl-gui.exe`. Close a running copy of the app before rebuilding.
 
-Optional: `create-desktop-shortcut.ps1` creates a **Murs Media** shortcut and copies language files next to the exe.
+**Debug** (`powershell -ExecutionPolicy Bypass -File .\build.ps1 -Configuration Debug`) → `youtube-dl-gui\bin\Debug\youtube-dl-gui.exe` — use only when debugging in Visual Studio; for daily use and releases, stick to **Release** above.
+
+`create-desktop-shortcut.ps1` is **not** a build step: it creates a **Murs Media** shortcut and copies language files next to the exe (run after a successful build if you want that).
 
 ## Features
 
@@ -44,4 +46,4 @@ This program is licensed under the **GNU GPL v3** — see [LICENSE](LICENSE).
 
 ### Кратко по-русски
 
-**Murs Media** — программа для Windows: загрузка видео через **yt-dlp**, конвертация через **ffmpeg**. Скачать сборку: **[Releases](https://github.com/Murs2024/youtube-dl-gui-master/releases)**. После распаковки запустите `youtube-dl-gui.exe`, укажите пути к yt-dlp (и при необходимости ffmpeg) в **Настройках**. Сборка из исходников — команда `build.ps1` в корне репозитория (нужны Build Tools / Visual Studio с .NET Framework 4.7.2).
+**Murs Media** — программа для Windows: загрузка видео через **yt-dlp**, конвертация через **ffmpeg**. Скачать сборку: **[Releases](https://github.com/Murs2024/youtube-dl-gui-master/releases)**. После распаковки запустите `youtube-dl-gui.exe`, укажите пути к yt-dlp (и при необходимости ffmpeg) в **Настройках**. Сборка из исходников — `build.ps1` в корне (нужны Build Tools / Visual Studio с .NET Framework 4.7.2). По умолчанию это **Release** (`bin\Release\`); **Debug** — только для отладки в Visual Studio. `create-desktop-shortcut.ps1` — не сборка, а ярлык и копирование `lang`.
